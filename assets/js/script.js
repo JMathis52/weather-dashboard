@@ -16,6 +16,30 @@ var fiveDayForecast = $("#five-day-forecast");
 // - The forecast for the next five days depending on which city was selected 
 // - Access to the cities through the search function on the app 
 
+$(document).ready(function(){
+    var APIkey = "2d55950b982d8809e238650a5988955c"
+    var location = "atlanta";
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=imperial&appid=" + APIkey;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response){
+        console.log(response);
+        var cityName = response.name;
+        // Temperature variable
+        var temperature = response.main.temp + "°F";
+        console.log(temperature);
+        // Humidity variable
+        var humidity = response.main.humidity + "%";
+        console.log(humidity);
+        // Wind speed variable
+        var windSpeed = response.wind.speed + " MPH";
+        console.log(windSpeed);
+        // UV index variable
+    })
+})
+
 // Event listeners:
 // - When I click the search button, the city I entered is displayed on the page and the
 // city is stored into local storage and displayed in the list-group
