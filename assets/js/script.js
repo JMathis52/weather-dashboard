@@ -40,36 +40,48 @@ $(document).ready(function () {
     // Get the date
     var currentDate = moment().format("(MM/DD/YYYY)");
     console.log(currentDate);
-    // Get icon that represents the current weather
+    // Get icon that represents the current weather and display it on the page
+    // Weather icon code
     var weatherIconCode = response.weather[0].icon;
-    var weatherIconURL = "http://openweathermap.org/img/wn/" + weatherIconCode + "@2x.png"
+    // Weather icon image source
+    var weatherIconURL =
+      "http://openweathermap.org/img/wn/" + weatherIconCode + "@2x.png";
+    // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
     var weatherIconImage = $("<img>");
     weatherIconImage.attr("src", weatherIconURL);
     weatherIconImage.attr("alt", "Weather icon");
-    weatherIconImage.attr("style","height: 60px");
-    // Target city-forecast section
+    weatherIconImage.attr("style", "height: 60px");
+    // Variable for the city forecast display
     var cityForecast = $("#city-forecast");
     // Create h1 element and add city name, current date, and weather icon.
     var h1Element = $("<h1>");
-    h1Element.append(cityName, " ",currentDate, weatherIconImage)
+    h1Element.append(cityName, " ", currentDate, weatherIconImage);
     cityForecast.append(h1Element);
-    // Create p elements for temperature, humidity, wind speed, and UV index
+    // Create p element for temperature and add text
     var pElementTemp = $("<p>");
     pElementTemp.text(temperature);
+    // Create p element for humidity and add text
     pElementHumidity = $("<p>");
     pElementHumidity.text(humidity);
+    // Create p element for wind speed and add text
     pElementWindSpeed = $("<p>");
     pElementWindSpeed.text(windSpeed);
-    cityForecast.append(pElementTemp, pElementHumidity,pElementWindSpeed);
-    // Get the UV index
+    // Append p elements for temp, humidity, and wind speed to the city forecast section
+    cityForecast.append(pElementTemp, pElementHumidity, pElementWindSpeed);
+
+    // Get the UV index using a different AJAX call (requires a different URL)
     $.ajax({
       url:
-        "http://api.openweathermap.org/data/2.5/uvi?lat=33.75&lon=-84.39&units=imperial&appid=" + APIkey,
+        "http://api.openweathermap.org/data/2.5/uvi?lat=33.75&lon=-84.39&units=imperial&appid=" +
+        APIkey,
       method: "GET",
     }).then(function (response) {
+      // Get the UV index
       var UVindex = "UV Index: " + response.value;
+      // Create p element for UV index and add text
       var pElementUVindex = $("<p>");
-      pElementUVindex.text(UVindex)
+      pElementUVindex.text(UVindex);
+      // Append to the apge
       cityForecast.append(pElementUVindex);
     });
   });
