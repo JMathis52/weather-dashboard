@@ -6,6 +6,14 @@
     margin: 10px;
 } */
 
+.form-control{
+    margin-right: 0 !important;
+}
+
+.fa-search {
+    color: white;
+}
+
 .list-group{
     margin-top: 30px;
     margin-bottom: 30px;
@@ -14,6 +22,10 @@
 
 .card {
     display: inline-block;
+}
+
+#searchBtn {
+    background-color: rgb(54, 143, 252);
 }
 
 #city-search {
