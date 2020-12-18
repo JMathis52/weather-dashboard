@@ -32,11 +32,11 @@ $(document).ready(function () {
     console.log(response);
     var cityName = response.name;
     // Temperature variable
-    var temperature = response.main.temp + "°F";
+    var temperature = "Temperature: " + response.main.temp + "°F";
     // Humidity variable
-    var humidity = response.main.humidity + "%";
+    var humidity = "Humidity: " + response.main.humidity + "%";
     // Wind speed variable
-    var windSpeed = response.wind.speed + " MPH";
+    var windSpeed = "Wind Speed: " + response.wind.speed + " MPH";
     // Get the date
     var currentDate = moment().format("(MM/DD/YYYY)");
     console.log(currentDate);
@@ -47,20 +47,30 @@ $(document).ready(function () {
     weatherIconImage.attr("src", weatherIconURL);
     weatherIconImage.attr("alt", "Weather icon");
     weatherIconImage.attr("style","height: 60px");
-    // Crate an h1 with the city name, date, and icon need to be created and appended to #city-forecast
+    // Target city-forecast section
     var cityForecast = $("#city-forecast");
+    // Create h1 element and add city name, current date, and weather icon.
     var h1Element = $("<h1>");
-    h1Element.text(cityName);
-    h1Element.append(" ",currentDate, weatherIconImage)
+    h1Element.append(cityName, " ",currentDate, weatherIconImage)
     cityForecast.append(h1Element);
-
+    // Create p elements for temperature, humidity, wind speed, and UV index
+    var pElementTemp = $("<p>");
+    pElementTemp.text(temperature);
+    pElementHumidity = $("<p>");
+    pElementHumidity.text(humidity);
+    pElementWindSpeed = $("<p>");
+    pElementWindSpeed.text(windSpeed);
+    cityForecast.append(pElementTemp, pElementHumidity,pElementWindSpeed);
     // Get the UV index
     $.ajax({
       url:
         "http://api.openweathermap.org/data/2.5/uvi?lat=33.75&lon=-84.39&units=imperial&appid=" + APIkey,
       method: "GET",
     }).then(function (response) {
-      var UVindex = response.value;
+      var UVindex = "UV Index: " + response.value;
+      var pElementUVindex = $("<p>");
+      pElementUVindex.text(UVindex)
+      cityForecast.append(pElementUVindex);
     });
   });
 });
