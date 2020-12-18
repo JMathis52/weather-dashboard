@@ -41,8 +41,20 @@ $(document).ready(function () {
     var windSpeed = response.wind.speed + " MPH";
     console.log(windSpeed);
     // Get icon that represents the current weather
-    var weatherIcon = response.weather[0].icon;
-    console.log(weatherIcon);
+    var weatherIconCode = response.weather[0].icon;
+    console.log(weatherIconCode);
+    var weatherIconURL = "http://openweathermap.org/img/wn/" + weatherIconCode + "@2x.png"
+    var weatherIconImage = $("<img>");
+    weatherIconImage.attr("src", weatherIconURL);
+    weatherIconImage.attr("alt", "Weather icon");
+    weatherIconImage.attr("style","height: 60px");
+    // An h1 with the city name, date, and icon need to be created and appended to #city-forecast
+    var cityForecast = $("#city-forecast");
+    var h1Element = $("<h1>");
+    h1Element.text(cityName);
+    h1Element.append(weatherIconImage)
+    cityForecast.append(h1Element);
+
     // Get the UV index
     $.ajax({
       url:
