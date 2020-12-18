@@ -5,9 +5,11 @@
 
 // DOM Variables (these will be added dynamically)
 // The #city-forecast section
+var todaysForecast = $("#city-forecast");
 // The #five-day-forecast section 
     // Cards will appear dynamically 
     // Content inside of the cards will appear dynamically 
+var fiveDayForecast = $("#five-day-forecast");
 
 // What I will need from OpenWeather:
 // - The forecast for the current day depending on which city is selected
