@@ -1,41 +1,42 @@
 .navbar-brand {
-    font-size: 50px;
+  font-size: 50px;
 }
 
 /* .container {
     margin: 10px;
 } */
 
-.form-control{
-    margin-right: 0 !important;
+.form-control {
+  margin-right: 0 !important;
 }
 
 .fa-search {
-    color: white;
+  color: white;
 }
 
-.list-group{
-    margin-top: 30px;
-    margin-bottom: 30px;
-    padding: 0;
+.list-group {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .card {
-    display: inline-block;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 #searchBtn {
-    background-color: rgb(54, 143, 252);
+  background-color: rgb(54, 143, 252);
 }
 
 #city-search {
-    background-color: rgb(244, 240, 240);
-    padding-left: 30px;
-    padding-right: 15px;
+  background-color: rgb(244, 240, 240);
+  padding-left: 30px;
+  padding-right: 15px;
 }
 
 #city-forecast {
-    margin-top: 20px;
-    margin-left: 20px;
-    border: solid 2px rgb(244, 240, 240);
+  margin-top: 20px;
+  margin-left: 20px;
+  border: solid 2px rgb(244, 240, 240);
 }
