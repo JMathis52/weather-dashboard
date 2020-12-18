@@ -33,26 +33,25 @@ $(document).ready(function () {
     var cityName = response.name;
     // Temperature variable
     var temperature = response.main.temp + "°F";
-    console.log(temperature);
     // Humidity variable
     var humidity = response.main.humidity + "%";
-    console.log(humidity);
     // Wind speed variable
     var windSpeed = response.wind.speed + " MPH";
-    console.log(windSpeed);
+    // Get the date
+    var currentDate = moment().format("(MM/DD/YYYY)");
+    console.log(currentDate);
     // Get icon that represents the current weather
     var weatherIconCode = response.weather[0].icon;
-    console.log(weatherIconCode);
     var weatherIconURL = "http://openweathermap.org/img/wn/" + weatherIconCode + "@2x.png"
     var weatherIconImage = $("<img>");
     weatherIconImage.attr("src", weatherIconURL);
     weatherIconImage.attr("alt", "Weather icon");
     weatherIconImage.attr("style","height: 60px");
-    // An h1 with the city name, date, and icon need to be created and appended to #city-forecast
+    // Crate an h1 with the city name, date, and icon need to be created and appended to #city-forecast
     var cityForecast = $("#city-forecast");
     var h1Element = $("<h1>");
     h1Element.text(cityName);
-    h1Element.append(weatherIconImage)
+    h1Element.append(" ",currentDate, weatherIconImage)
     cityForecast.append(h1Element);
 
     // Get the UV index
@@ -61,9 +60,7 @@ $(document).ready(function () {
         "http://api.openweathermap.org/data/2.5/uvi?lat=33.75&lon=-84.39&units=imperial&appid=" + APIkey,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
       var UVindex = response.value;
-      console.log(UVindex);
     });
   });
 });
