@@ -20,6 +20,10 @@
 
 // Local storage:
 // The last cities I searched are stored into local storage and displayed in the list-group
+// When an item is stored to local storage:
+// 1. An li with the class list-group-item is created
+// 2. The text is set to the city that was searched
+// 3. The li is appended to to the ul with the class of list-group
 
 // DOM manipulation 
 // When a user types a city and clicks the search button:
