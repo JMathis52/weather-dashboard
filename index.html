@@ -26,11 +26,13 @@
     <nav class="navbar navbar-dark bg-dark">
       <span class="navbar-brand mb-0 h1 mx-auto">Weather Dashboard</span>
     </nav>
-    <main class="container">
-    <!-- One row -->
+    <!-- Main content -->
+    <main class="wrapper">
+    <!-- Row -->
     <div class="row">
+        <!-- City search -->
       <div id="city-search" class="col-sm-4">
-        <!-- Search for a city -->
+        <!-- Header -->
         <h1>Search for a City:</h1>
         <form class="form-inline my-2 my-lg-0">
           <input
@@ -39,12 +41,15 @@
             placeholder="Search"
             aria-label="Search"
           />
+          <!-- Search button -->
           <button id="search-button" class="btn my-2 my-sm-0" type="submit">
             <i class="fas fa-search"></i>
           </button>
         </form>
+        <!-- List of previously searched cities -->
         <ul class="list-group"></ul>
       </div>
+      <!-- City Forecast -->
       <div class="col-sm-8">
         <div class="row">
           <div id="city-forecast" class="col-sm-12">
@@ -54,10 +59,9 @@
         <div class="row">
           <div id="five-day-forecast" class="col-sm-12">
             <!-- Header -->
-            <h1>5-Day Forecast:</h1>
             <!-- Five day forecast cards will go here -->
             </div>
-          </div>
+        </div>
         </div>
       </div>
     </div>

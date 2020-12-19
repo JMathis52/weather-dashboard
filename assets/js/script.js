@@ -18,10 +18,7 @@
 $(document).ready(function () {
   $("#search-button").on("click", function (event) {
     event.preventDefault();
-    if (
-      $("#city-forecast") !== "" &&
-      $("#five-day-forecast") !== ""
-    ) {
+    if ($("#city-forecast") !== "" && $("#five-day-forecast") !== "") {
       $("#city-forecast").empty();
       $("#five-day-forecast").empty();
     }
@@ -122,10 +119,15 @@ $(document).ready(function () {
             4: moment().add(5, "days").format("MM/DD/YYYY"),
           },
         ];
+        // Create heading
+        var fiveDayForecast = $("#five-day-forecast");
+        var h1Element = $("<h1>");
+        h1Element.text("5 Day Forecast:");
+        fiveDayForecast.append(h1Element);
         // Create cards
         for (var i = 0; i < 5; i++) {
-          var fiveDayForecast = $("#five-day-forecast");
           fiveDayForecast.attr("style", "display: block");
+
           // Create card
           var card = $("<div>");
           card.addClass("card");
