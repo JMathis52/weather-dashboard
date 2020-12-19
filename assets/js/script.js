@@ -16,28 +16,33 @@
 // - Access to the cities through the search function on the app
 
 $(document).ready(function () {
-  function getSearchedCity(event) {
-    event.preventDefault();
-    // console.log($(this));
-    var searchedCity = $(".form-control").val();
-    console.log(searchedCity);
-  }
-  $("#search-button").on("click", getSearchedCity);
+  var searchedCitiesArray = [];
+
   var APIkey = "2d55950b982d8809e238650a5988955c";
   var location = "atlanta";
   var latitudeNum = "33.75";
   var longitudeNum = "-84.39";
-  var queryURL =
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    
+  function getSearchedCity(event) {
+    event.preventDefault();
+    var searchedCity = $(".form-control").val();
+    searchedCitiesArray.push(searchedCity);
+    console.log(searchedCity);
+    console.log(searchedCitiesArray);
+    location = searchedCitiesArray[0];
+    console.log(location);
+  }
+  $("#search-button").on("click", getSearchedCity);
+  $.ajax({
+    url: "https://api.openweathermap.org/data/2.5/weather?q=" +
     location +
     "&units=imperial&appid=" +
-    APIkey;
-
-  $.ajax({
-    url: queryURL,
+    APIkey,
     method: "GET",
   }).then(function (response) {
     console.log(response);
+    console.log(location);
+    // Function to get the input from the search bar
     var cityName = response.name;
     // Temperature variable
     var temperature = "Temperature: " + response.main.temp + "°F";
