@@ -162,14 +162,12 @@ $(document).ready(function () {
           pElementTemp.append(temp);
           cardBody.append(pElementTemp);
           fiveDayForecast.append(card);
+          // Create p element, add humidity, and append to the card body
+          var pElementHumidity = $("<p>");
+          var humidity = "Humidity: " + response.list[i].main.humidity + "%";
+          pElementHumidity.append(humidity);
+          cardBody.append(pElementHumidity);
         }
-        // // Add temp to dayOne card using class temp
-        // var pElementTemp = $("#day-one-temp");
-        // pElementTemp.append(temp);
-        // // Add humidity to dayOne card using class humidity
-        // var p1ElementHumidity = $("#day-one-humidity");
-        // var humidity = "Humidity: " + response.list[0].main.humidity + "%";
-        // p1ElementHumidity.append(humidity);
       });
     });
   });
