@@ -17,7 +17,6 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
-      for (var i = 0; i < searchedCitiesArray.length; i++) {}
       // City name variable
       var cityName = response.name;
       // Temperature variable
