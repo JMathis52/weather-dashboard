@@ -42,8 +42,6 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       console.log(response);
-      console.log(location);
-      console.log(searchedCitiesArray);
       for (var i = 0; i < searchedCitiesArray.length; i++) {}
       // City name variable
       var cityName = response.name;
@@ -55,7 +53,6 @@ $(document).ready(function () {
       var windSpeed = "Wind Speed: " + response.wind.speed + " MPH";
       // Get the date
       var currentDate = moment().format("(MM/DD/YYYY)");
-      console.log(currentDate);
       // Get icon that represents the current weather and display it on the page
       // Weather icon code
       var weatherIconCode = response.weather[0].icon;
@@ -97,13 +94,14 @@ $(document).ready(function () {
         method: "GET",
       }).then(function (response) {
         // Get the UV index
-        var UVindex = "UV Index: ";
+        var UVindex = response.value;
+        console.log(response);
         var UVindexSpan = $("<span>");
         UVindexSpan.addClass("uv-index");
-        UVindexSpan.text(response.value);
+        UVindexSpan.text(UVindex);
         // Create p element for UV index and add text
         var pElementUVindex = $("<p>");
-        pElementUVindex.text(UVindex);
+        pElementUVindex.text("UV Index: ");
         pElementUVindex.append(UVindexSpan);
         // Append to the page
         todaysForecast.append(pElementUVindex);
@@ -117,34 +115,58 @@ $(document).ready(function () {
         method: "GET",
       }).then(function (response) {
         console.log(response);
+        var fiveDayForecastArray = [
+          {
+            0: moment().add(1, "days").format("MM/DD/YYYY"),
+            1: moment().add(2, "days").format("MM/DD/YYYY"),
+            2: moment().add(3, "days").format("MM/DD/YYYY"),
+            3: moment().add(4, "days").format("MM/DD/YYYY"),
+            4: moment().add(5, "days").format("MM/DD/YYYY"),
+          },
+        ];
+        // Create cards
+        for (var i = 0; i < 5; i++) {
+          var fiveDayForecast = $("#five-day-forecast");
+          fiveDayForecast.attr("style", "display: block");
+          var card = $("<div>");
+          card.addClass("card");
+          card.attr("style", "width: 10rem");
+          var cardBody = $("<div>");
+          cardBody.addClass("card-body");
+          card.append(cardBody);
+          var h5Element = $("<h5>");
+          h5Element.addClass("card-title");
+          h5Element.text(fiveDayForecastArray[0][i]);
+          cardBody.append(h5Element);
+          fiveDayForecast.append(card);
+        }
+
         // Turn card display on
-        var fiveDayForecast = $("#five-day-forecast");
-        fiveDayForecast.attr("style", "display: block");
         // Add date to dayOne card using class date
-        var h1Date = $("#day-one-date");
-        var dayOne = moment().add(1, "days").format("MM/DD/YYYY");
-        h1Date.append(dayOne);
-        // Add weather icon to dayOne card using class icon
-        var pElementIcon = $("#day-one-icon");
-        // Weather icon code
-        var iconCode = response.list[0].weather[0].icon;
-        // Weather icon image source
-        var iconURL =
-          "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
-        // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
-        var iconImage = $("<img>");
-        iconImage.attr("src", iconURL);
-        iconImage.attr("alt", "Weather icon");
-        iconImage.attr("style", "height: 60px");
-        pElementIcon.append(iconImage);
-        // Add temp to dayOne card using class temp
-        var pElementTemp = $("#day-one-temp");
-        var temp = "Temp: " + response.list[0].main.temp + "°F";
-        pElementTemp.append(temp);
-        // Add humidity to dayOne card using class humidity
-        var p1ElementHumidity = $("#day-one-humidity");
-        var humidity = "Humidity: " + response.list[0].main.humidity + "%";
-        p1ElementHumidity.append(humidity);
+        // var h1Date = $("#day-one-date");
+        // var dayOne = moment().add(1, "days").format("MM/DD/YYYY");
+        // h1Date.append(dayOne);
+        // // Add weather icon to dayOne card using class icon
+        // var pElementIcon = $("#day-one-icon");
+        // // Weather icon code
+        // var iconCode = response.list[0].weather[0].icon;
+        // // Weather icon image source
+        // var iconURL =
+        //   "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
+        // // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
+        // var iconImage = $("<img>");
+        // iconImage.attr("src", iconURL);
+        // iconImage.attr("alt", "Weather icon");
+        // iconImage.attr("style", "height: 60px");
+        // pElementIcon.append(iconImage);
+        // // Add temp to dayOne card using class temp
+        // var pElementTemp = $("#day-one-temp");
+        // var temp = "Temp: " + response.list[0].main.temp + "°F";
+        // pElementTemp.append(temp);
+        // // Add humidity to dayOne card using class humidity
+        // var p1ElementHumidity = $("#day-one-humidity");
+        // var humidity = "Humidity: " + response.list[0].main.humidity + "%";
+        // p1ElementHumidity.append(humidity);
       });
     });
   });
