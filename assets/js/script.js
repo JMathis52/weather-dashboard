@@ -25,8 +25,8 @@ $(document).ready(function () {
     var searchedCitiesArray = [];
     var APIkey = "2d55950b982d8809e238650a5988955c";
     var location = $(".form-control").val();
-    var latitudeNum = "33.75";
-    var longitudeNum = "-84.39";
+    var latitudeNum = "";
+    var longitudeNum = "";
     searchedCitiesArray.push(location);
     $.ajax({
       url:
@@ -36,7 +36,6 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
       for (var i = 0; i < searchedCitiesArray.length; i++) {}
       // City name variable
       var cityName = response.name;
@@ -81,16 +80,15 @@ $(document).ready(function () {
       $.ajax({
         url:
           "http://api.openweathermap.org/data/2.5/uvi?lat=" +
-          latitudeNum +
+          response.coord.lat +
           "&lon=" +
-          longitudeNum +
+          response.coord.lon +
           "&units=imperial&appid=" +
           APIkey,
         method: "GET",
       }).then(function (response) {
         // Get the UV index
         var UVindex = response.value;
-        console.log(response);
         var UVindexSpan = $("<span>");
         UVindexSpan.addClass("uv-index");
         UVindexSpan.text(UVindex);
@@ -109,7 +107,7 @@ $(document).ready(function () {
           APIkey,
         method: "GET",
       }).then(function (response) {
-        console.log(response);
+        // Array that holds the date of the next five days
         var fiveDayForecastArray = [
           {
             0: moment().add(1, "days").format("MM/DD/YYYY"),
@@ -124,7 +122,7 @@ $(document).ready(function () {
         var h1Element = $("<h1>");
         h1Element.text("5 Day Forecast:");
         fiveDayForecast.append(h1Element);
-        // Create cards
+        // For loop to create five day forecast cards
         for (var i = 0; i < 5; i++) {
           fiveDayForecast.attr("style", "display: block");
 
