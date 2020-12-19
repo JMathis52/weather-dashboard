@@ -27,6 +27,13 @@
   color:white;
 }
 
+.uv-index {
+  background-color: rgb(210, 49, 49);
+  color: white;
+  padding: 7px;
+  border-radius: 3px;
+}
+
 #search-button {
   background-color: rgb(54, 143, 252);
 }
