@@ -128,16 +128,34 @@ $(document).ready(function () {
         for (var i = 0; i < 5; i++) {
           var fiveDayForecast = $("#five-day-forecast");
           fiveDayForecast.attr("style", "display: block");
+          // Create card
           var card = $("<div>");
           card.addClass("card");
           card.attr("style", "width: 10rem");
+          // Create card body and append it to the card
           var cardBody = $("<div>");
           cardBody.addClass("card-body");
           card.append(cardBody);
+          // Create h5 element, add the date from the fiveDayForecastArray, and append to the card body
           var h5Element = $("<h5>");
           h5Element.addClass("card-title");
           h5Element.text(fiveDayForecastArray[0][i]);
           cardBody.append(h5Element);
+          // Create p element, add the weather icon, and append to the card body
+          var pElementIcon = $("<p>");
+          // Weather icon code
+          var iconCode = response.list[i].weather[0].icon;
+          // Weather icon image source
+          var iconURL =
+            "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
+          // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
+          var iconImage = $("<img>");
+          iconImage.attr("src", iconURL);
+          iconImage.attr("alt", "Weather icon");
+          iconImage.attr("style", "height: 60px");
+          pElementIcon.append(iconImage);
+          // Append p element with icon to card body
+          cardBody.append(pElementIcon);
           fiveDayForecast.append(card);
         }
 
@@ -146,19 +164,19 @@ $(document).ready(function () {
         // var h1Date = $("#day-one-date");
         // var dayOne = moment().add(1, "days").format("MM/DD/YYYY");
         // h1Date.append(dayOne);
-        // // Add weather icon to dayOne card using class icon
-        // var pElementIcon = $("#day-one-icon");
-        // // Weather icon code
-        // var iconCode = response.list[0].weather[0].icon;
-        // // Weather icon image source
-        // var iconURL =
-        //   "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
-        // // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
-        // var iconImage = $("<img>");
-        // iconImage.attr("src", iconURL);
-        // iconImage.attr("alt", "Weather icon");
-        // iconImage.attr("style", "height: 60px");
-        // pElementIcon.append(iconImage);
+        // Add weather icon to dayOne card using class icon
+        var pElementIcon = $("#day-one-icon");
+        // Weather icon code
+        var iconCode = response.list[0].weather[0].icon;
+        // Weather icon image source
+        var iconURL =
+          "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
+        // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
+        var iconImage = $("<img>");
+        iconImage.attr("src", iconURL);
+        iconImage.attr("alt", "Weather icon");
+        iconImage.attr("style", "height: 60px");
+        pElementIcon.append(iconImage);
         // // Add temp to dayOne card using class temp
         // var pElementTemp = $("#day-one-temp");
         // var temp = "Temp: " + response.list[0].main.temp + "°F";
