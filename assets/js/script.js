@@ -20,12 +20,10 @@ $(document).ready(function () {
     event.preventDefault();
     if (
       $("#city-forecast") !== "" &&
-      $("#five-day-forecast").attr("style", "display: block")
+      $("#five-day-forecast") !== ""
     ) {
       $("#city-forecast").empty();
-      $("#five-day-forecast").attr("style", "display: none");
-      $(".card-title").empty();
-      $(".card-text").empty();
+      $("#five-day-forecast").empty();
     }
     var searchedCitiesArray = [];
     var APIkey = "2d55950b982d8809e238650a5988955c";
