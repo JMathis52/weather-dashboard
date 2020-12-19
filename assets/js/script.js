@@ -5,11 +5,10 @@
 
 // DOM Variables (these will be added dynamically)
 // The #city-forecast section
-var todaysForecast = $("#city-forecast");
+// var todaysForecast = $("#city-forecast");
 // The #five-day-forecast section
 // Cards will appear dynamically
 // Content inside of the cards will appear dynamically
-var fiveDayForecast = $("#five-day-forecast");
 
 // What I will need from OpenWeather:
 // - The forecast for the current day depending on which city is selected
@@ -19,6 +18,8 @@ var fiveDayForecast = $("#five-day-forecast");
 $(document).ready(function () {
   var APIkey = "2d55950b982d8809e238650a5988955c";
   var location = "atlanta";
+  var latitudeNum = "33.75";
+  var longitudeNum = "-84.39";
   var queryURL =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     location +
@@ -52,11 +53,11 @@ $(document).ready(function () {
     weatherIconImage.attr("alt", "Weather icon");
     weatherIconImage.attr("style", "height: 60px");
     // Variable for the city forecast display
-    var cityForecast = $("#city-forecast");
+    var todaysForecast = $("#city-forecast");
     // Create h1 element and add city name, current date, and weather icon.
     var h1Element = $("<h1>");
     h1Element.append(cityName, " ", currentDate, weatherIconImage);
-    cityForecast.append(h1Element);
+    todaysForecast.append(h1Element);
     // Create p element for temperature and add text
     var pElementTemp = $("<p>");
     pElementTemp.text(temperature);
@@ -67,12 +68,16 @@ $(document).ready(function () {
     pElementWindSpeed = $("<p>");
     pElementWindSpeed.text(windSpeed);
     // Append p elements for temp, humidity, and wind speed to the city forecast section
-    cityForecast.append(pElementTemp, pElementHumidity, pElementWindSpeed);
+    todaysForecast.append(pElementTemp, pElementHumidity, pElementWindSpeed);
 
     // Get the UV index using a different AJAX call (requires a different URL)
     $.ajax({
       url:
-        "http://api.openweathermap.org/data/2.5/uvi?lat=33.75&lon=-84.39&units=imperial&appid=" +
+        "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+        latitudeNum +
+        "&lon=" +
+        longitudeNum +
+        "&units=imperial&appid=" +
         APIkey,
       method: "GET",
     }).then(function (response) {
@@ -82,7 +87,45 @@ $(document).ready(function () {
       var pElementUVindex = $("<p>");
       pElementUVindex.text(UVindex);
       // Append to the apge
-      cityForecast.append(pElementUVindex);
+      todaysForecast.append(pElementUVindex);
+    });
+    $.ajax({
+      url:
+        "https://api.openweathermap.org/data/2.5/forecast?q=" +
+        location +
+        "&units=imperial&appid=" +
+        APIkey,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+      // Turn card display on
+      var fiveDayForecast = $("#five-day-forecast");
+      fiveDayForecast.attr("style", "display: block");
+      // Add date to dayOne card using class date
+      var h1Date = $("#day-one-date");
+      var dayOne = moment().add(1, "days").format("MM/DD/YYYY");
+      h1Date.append(dayOne);
+      // Add weather icon to dayOne card using class icon
+      var pElementIcon = $("#day-one-icon");
+      // Weather icon code
+      var iconCode = response.list[0].weather[0].icon;
+      // Weather icon image source
+      var iconURL = 
+        "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
+      // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
+      var iconImage = $("<img>");
+      iconImage.attr("src", iconURL);
+      iconImage.attr("alt", "Weather icon");
+      iconImage.attr("style", "height: 60px");
+      pElementIcon.append(iconImage);
+      // Add temp to dayOne card using class temp
+      var pElementTemp = $("#day-one-temp");
+      var temp = "Temp: " + response.list[0].main.temp + "°F";
+      pElementTemp.append(temp);
+      // Add humidity to dayOne card using class humidity
+      var p1ElementHumidity = $("#day-one-humidity");
+      var humidity = "Humidity: " + response.list[0].main.humidity + "%";
+      p1ElementHumidity.append(humidity);
     });
   });
 });
