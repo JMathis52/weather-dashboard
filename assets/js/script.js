@@ -16,6 +16,13 @@
 // - Access to the cities through the search function on the app
 
 $(document).ready(function () {
+  function getSearchedCity(event) {
+    event.preventDefault();
+    // console.log($(this));
+    var searchedCity = $(".form-control").val();
+    console.log(searchedCity);
+  }
+  $("#search-button").on("click", getSearchedCity);
   var APIkey = "2d55950b982d8809e238650a5988955c";
   var location = "atlanta";
   var latitudeNum = "33.75";
@@ -110,8 +117,7 @@ $(document).ready(function () {
       // Weather icon code
       var iconCode = response.list[0].weather[0].icon;
       // Weather icon image source
-      var iconURL = 
-        "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
+      var iconURL = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
       // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
       var iconImage = $("<img>");
       iconImage.attr("src", iconURL);
