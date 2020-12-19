@@ -60,7 +60,7 @@ $(document).ready(function () {
       // Get the UV index using a different AJAX call (requires a different URL)
       $.ajax({
         url:
-          "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+          "https://api.openweathermap.org/data/2.5/uvi?lat=" +
           response.coord.lat +
           "&lon=" +
           response.coord.lon +
