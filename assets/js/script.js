@@ -1,14 +1,17 @@
 $(document).ready(function () {
+  var searchedCitiesArray = [];
+  
   $("#search-button").on("click", function (event) {
     event.preventDefault();
     if ($("#city-forecast") !== "" && $("#five-day-forecast") !== "") {
       $("#city-forecast").empty();
       $("#five-day-forecast").empty();
     }
-    var searchedCitiesArray = [];
+    
     var APIkey = "2d55950b982d8809e238650a5988955c";
     var location = $(".form-control").val();
     searchedCitiesArray.push(location);
+    console.log(searchedCitiesArray);
     $.ajax({
       url:
         "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -17,6 +20,7 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
+
       // City name variable
       var cityName = response.name;
       // Temperature variable
