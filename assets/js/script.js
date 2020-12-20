@@ -1,17 +1,43 @@
 $(document).ready(function () {
   var searchedCitiesArray = [];
-  
+
+  // Click event for search button
   $("#search-button").on("click", function (event) {
     event.preventDefault();
+    // Conditional to empty forecast each time a new city is searched
     if ($("#city-forecast") !== "" && $("#five-day-forecast") !== "") {
       $("#city-forecast").empty();
       $("#five-day-forecast").empty();
     }
-    
+
+    // Variables
     var APIkey = "2d55950b982d8809e238650a5988955c";
     var location = $(".form-control").val();
+
+    // Push searched city into searchedCitiesArray
     searchedCitiesArray.push(location);
     console.log(searchedCitiesArray);
+
+    // Store searchedCitiesArray to local storage
+    // Local storage:
+    // The last cities I searched are stored into local storage and displayed in the list-group
+    // When an item is stored to local storage:
+
+    // Title case searchedCitiesArray
+    function titleCase(searchedCitiesArray) {
+      searchedCitiesArray = searchedCitiesArray.toLowerCase().split(" ");
+      for (var i = 0; i < searchedCitiesArray.length; i++) {
+        searchedCitiesArray[i] = searchedCitiesArray[i].charAt(0).toUpperCase() + searchedCitiesArray[i].slice(1);
+      }
+      return searchedCitiesArray.join(" ");
+    }
+    var ulElement = $(".list-group");
+    var liElement = $("<li>");
+    liElement.addClass("list-group-item");
+    liElement.text(titleCase(location));
+    ulElement.append(liElement);
+
+    // AJAX call for the weather
     $.ajax({
       url:
         "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -20,7 +46,6 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
-
       // City name variable
       var cityName = response.name;
       // Temperature variable
@@ -37,7 +62,7 @@ $(document).ready(function () {
       // Weather icon image source
       var weatherIconURL =
         "http://openweathermap.org/img/wn/" + weatherIconCode + "@2x.png";
-      // Create image for weather icon and set the source to be the weatherIconURL. Add alt text and styling.
+      // Create image for weather icon and set the source to be the weatherIconURL.
       var weatherIconImage = $("<img>");
       weatherIconImage.attr("src", weatherIconURL);
       weatherIconImage.attr("alt", "Weather icon");
@@ -60,7 +85,7 @@ $(document).ready(function () {
       // Append p elements for temp, humidity, and wind speed to the city forecast section
       todaysForecast.append(pElementTemp, pElementHumidity, pElementWindSpeed);
 
-      // Get the UV index using a different AJAX call (requires a different URL)
+      // AJAX call to get the UV index
       $.ajax({
         url:
           "https://api.openweathermap.org/data/2.5/uvi?lat=" +
@@ -83,6 +108,8 @@ $(document).ready(function () {
         // Append to the page
         todaysForecast.append(pElementUVindex);
       });
+
+      // AJAX call to get the forecast for the next five days
       $.ajax({
         url:
           "https://api.openweathermap.org/data/2.5/forecast?q=" +
@@ -91,7 +118,7 @@ $(document).ready(function () {
           APIkey,
         method: "GET",
       }).then(function (response) {
-        // Array that holds the date of the next five days
+        // Array that holds the dates for the next five days
         var fiveDayForecastArray = [
           {
             0: moment().add(1, "days").format("MM/DD/YYYY"),
@@ -101,7 +128,7 @@ $(document).ready(function () {
             4: moment().add(5, "days").format("MM/DD/YYYY"),
           },
         ];
-        // Create heading
+        // Create heading and append to the five day forecast
         var fiveDayForecast = $("#five-day-forecast");
         var h1Element = $("<h1>");
         h1Element.text("5 Day Forecast:");
@@ -154,11 +181,3 @@ $(document).ready(function () {
     });
   });
 });
-
-// Local storage:
-// The last cities I searched are stored into local storage and displayed in the list-group
-// When an item is stored to local storage:
-// 1. An li with the class list-group-item is created
-// 2. The text is set to the city that was searched
-// 3. The li is appended to to the ul with the class of list-group
-
