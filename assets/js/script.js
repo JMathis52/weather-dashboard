@@ -29,7 +29,7 @@ $(document).ready(function () {
     console.log(titleCase(location));
 
     // Push searched city into searchedCitiesArray
-    searchedCitiesArray.push(titleCase(location));
+      searchedCitiesArray.push(titleCase(location));
 
     // Push unique cities from searched cities array into unique cities array
     searchedCitiesArray.forEach((city) => {
@@ -50,11 +50,6 @@ $(document).ready(function () {
       liElement.text(uniqueCities[i]);
       ulElement.append(liElement);
     }
-    $(".list-group-item").on("click", function(event){
-        event.preventDefault();
-        console.log("you clicked an li");
-        // City information needs to appear on the page
-    })
 
     // AJAX call for the weather
     $.ajax({
@@ -65,6 +60,10 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
+        $(".list-group-item").on("click", function (event) {
+          event.preventDefault();
+          console.log("you clicked an li");
+        });
       // City name variable
       var cityName = response.name;
       // Temperature variable

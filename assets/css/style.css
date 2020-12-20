@@ -15,6 +15,10 @@
   margin-bottom: 30px;
 }
 
+.list-group-item:hover {
+  background: rgb(242, 242, 242);
+}
+
 .card {
   display: inline-block;
   margin-left: 5px;
