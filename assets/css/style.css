@@ -23,8 +23,20 @@
   color:white;
 }
 
-.uv-index {
+.uv-index-severe {
   background-color: rgb(210, 49, 49);
+  color: white;
+  padding: 7px;
+  border-radius: 3px;
+}
+.uv-index-moderate {
+  background-color: rgb(236,110,76);
+  color: white;
+  padding: 7px;
+  border-radius: 3px;
+}
+.uv-index-favorable {
+  background-color: rgb(87, 210, 49);
   color: white;
   padding: 7px;
   border-radius: 3px;

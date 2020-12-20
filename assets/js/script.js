@@ -111,7 +111,13 @@ $(document).ready(function () {
         // Get the UV index
         var UVindex = response.value;
         var UVindexSpan = $("<span>");
-        UVindexSpan.addClass("uv-index");
+        if(UVindex >= 8){
+            UVindexSpan.addClass("uv-index-severe");
+        } else if(UVindex >= 3 && UVindex <= 7){
+            UVindexSpan.addClass("uv-index-moderate")
+        } else {
+            UVindexSpan.addClass("uv-index-favorable")
+        }
         UVindexSpan.text(UVindex);
         // Create p element for UV index and add text
         var pElementUVindex = $("<p>");
