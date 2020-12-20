@@ -1,5 +1,8 @@
 $(document).ready(function () {
-  var searchedCitiesArray = [];
+  // Variables for local storage
+  var searchedCitiesArray = JSON.parse(localStorage.getItem("cities")) || [];
+  var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
+  // For each loop to grab unique cities
 
   // Click event for search button
   $("#search-button").on("click", function (event) {
@@ -14,28 +17,37 @@ $(document).ready(function () {
     var APIkey = "2d55950b982d8809e238650a5988955c";
     var location = $(".form-control").val();
 
-    // Push searched city into searchedCitiesArray
-    searchedCitiesArray.push(location);
-    console.log(searchedCitiesArray);
-
-    // Store searchedCitiesArray to local storage
-    // Local storage:
-    // The last cities I searched are stored into local storage and displayed in the list-group
-    // When an item is stored to local storage:
-
-    // Title case searchedCitiesArray
-    function titleCase(searchedCitiesArray) {
-      searchedCitiesArray = searchedCitiesArray.toLowerCase().split(" ");
-      for (var i = 0; i < searchedCitiesArray.length; i++) {
-        searchedCitiesArray[i] = searchedCitiesArray[i].charAt(0).toUpperCase() + searchedCitiesArray[i].slice(1);
+    // Title case uniqueCities
+    function titleCase(uniqueCities) {
+      uniqueCities = uniqueCities.toLowerCase().split(" ");
+      for (var i = 0; i < uniqueCities.length; i++) {
+        uniqueCities[i] =
+          uniqueCities[i].charAt(0).toUpperCase() + uniqueCities[i].slice(1);
       }
-      return searchedCitiesArray.join(" ");
+      return uniqueCities.join(" ");
     }
-    var ulElement = $(".list-group");
-    var liElement = $("<li>");
-    liElement.addClass("list-group-item");
-    liElement.text(titleCase(location));
-    ulElement.append(liElement);
+    console.log(titleCase(location));
+    
+    // Push searched city into searchedCitiesArray
+    searchedCitiesArray.push(titleCase(location));
+
+    // Push unique cities from searched cities array into unique cities array
+    searchedCitiesArray.forEach((city) => {
+      if (!uniqueCities.includes(city)) {
+        uniqueCities.push(city);
+      }
+    });
+    console.log(uniqueCities);
+    // Set local storage key to store unique cities array
+    localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
+    // For loop to create list groups for each city in the unique cities array
+    for (var i = 0; i < uniqueCities.length; i++) {
+      var ulElement = $(".list-group");
+      var liElement = $("<li>");
+      liElement.addClass("list-group-item");
+      liElement.text(uniqueCities[i]);
+      ulElement.append(liElement);
+    }
 
     // AJAX call for the weather
     $.ajax({
