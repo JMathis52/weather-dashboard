@@ -27,7 +27,7 @@ $(document).ready(function () {
       return uniqueCities.join(" ");
     }
     console.log(titleCase(location));
-    
+
     // Push searched city into searchedCitiesArray
     searchedCitiesArray.push(titleCase(location));
 
@@ -41,13 +41,20 @@ $(document).ready(function () {
     // Set local storage key to store unique cities array
     localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
     // For loop to create list groups for each city in the unique cities array
+    var ulElement = $(".list-group");
+    ulElement.empty();
+
     for (var i = 0; i < uniqueCities.length; i++) {
-      var ulElement = $(".list-group");
       var liElement = $("<li>");
       liElement.addClass("list-group-item");
       liElement.text(uniqueCities[i]);
       ulElement.append(liElement);
     }
+    $(".list-group-item").on("click", function(event){
+        event.preventDefault();
+        console.log("you clicked an li");
+        // City information needs to appear on the page
+    })
 
     // AJAX call for the weather
     $.ajax({
@@ -67,7 +74,8 @@ $(document).ready(function () {
       // Wind speed variable
       var windSpeed = "Wind Speed: " + response.wind.speed + " MPH";
       // Get the date
-      var currentDate = moment().format("(MM/DD/YYYY)");
+      var getDate = new Date(response.dt * 1000);
+      var currentDate = "(" + getDate.toLocaleDateString() + ")";
       // Get icon that represents the current weather and display it on the page
       // Weather icon code
       var weatherIconCode = response.weather[0].icon;
@@ -111,12 +119,12 @@ $(document).ready(function () {
         // Get the UV index
         var UVindex = response.value;
         var UVindexSpan = $("<span>");
-        if(UVindex >= 8){
-            UVindexSpan.addClass("uv-index-severe");
-        } else if(UVindex >= 3 && UVindex <= 7){
-            UVindexSpan.addClass("uv-index-moderate")
+        if (UVindex >= 8) {
+          UVindexSpan.addClass("uv-index-severe");
+        } else if (UVindex >= 3 && UVindex <= 7) {
+          UVindexSpan.addClass("uv-index-moderate");
         } else {
-            UVindexSpan.addClass("uv-index-favorable")
+          UVindexSpan.addClass("uv-index-favorable");
         }
         UVindexSpan.text(UVindex);
         // Create p element for UV index and add text
@@ -130,31 +138,26 @@ $(document).ready(function () {
       // AJAX call to get the forecast for the next five days
       $.ajax({
         url:
-          "https://api.openweathermap.org/data/2.5/forecast?q=" +
-          location +
-          "&units=imperial&appid=" +
+          "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+          response.coord.lat +
+          "&lon=" +
+          response.coord.lon +
+          "&exclude=current&units=imperial" +
+          "&appid=" +
           APIkey,
         method: "GET",
       }).then(function (response) {
-        // Array that holds the dates for the next five days
-        var fiveDayForecastArray = [
-          {
-            0: moment().add(1, "days").format("MM/DD/YYYY"),
-            1: moment().add(2, "days").format("MM/DD/YYYY"),
-            2: moment().add(3, "days").format("MM/DD/YYYY"),
-            3: moment().add(4, "days").format("MM/DD/YYYY"),
-            4: moment().add(5, "days").format("MM/DD/YYYY"),
-          },
-        ];
         // Create heading and append to the five day forecast
         var fiveDayForecast = $("#five-day-forecast");
         var h1Element = $("<h1>");
         h1Element.text("5 Day Forecast:");
         fiveDayForecast.append(h1Element);
         // For loop to create five day forecast cards
-        for (var i = 0; i < 5; i++) {
+        console.log(response);
+        for (var i = 1; i < 6; i++) {
           fiveDayForecast.attr("style", "display: block");
-
+          var newDate = new Date(response.daily[i].dt * 1000);
+          var stringifiedDate = newDate.toLocaleDateString();
           // Create card
           var card = $("<div>");
           card.addClass("card");
@@ -166,12 +169,12 @@ $(document).ready(function () {
           // Create h5 element, add the date from the fiveDayForecastArray, and append to the card body
           var h5Element = $("<h5>");
           h5Element.addClass("card-title");
-          h5Element.text(fiveDayForecastArray[0][i]);
+          h5Element.text(stringifiedDate);
           cardBody.append(h5Element);
           // Create p element, add the weather icon, and append to the card body
           var pElementIcon = $("<p>");
           // Weather icon code
-          var iconCode = response.list[i].weather[0].icon;
+          var iconCode = response.daily[i].weather[0].icon;
           // Weather icon image source
           var iconURL =
             "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
@@ -185,13 +188,13 @@ $(document).ready(function () {
           cardBody.append(pElementIcon);
           //   Create p element, add temp, and append to the card body
           var pElementTemp = $("<p>");
-          var temp = "Temp: " + response.list[i].main.temp + "°F";
+          var temp = "Temp: " + response.daily[i].temp.max + "°F";
           pElementTemp.append(temp);
           cardBody.append(pElementTemp);
           fiveDayForecast.append(card);
           // Create p element, add humidity, and append to the card body
           var pElementHumidity = $("<p>");
-          var humidity = "Humidity: " + response.list[i].main.humidity + "%";
+          var humidity = "Humidity: " + response.daily[i].humidity + "%";
           pElementHumidity.append(humidity);
           cardBody.append(pElementHumidity);
         }
