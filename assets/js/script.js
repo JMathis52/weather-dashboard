@@ -4,18 +4,6 @@ $(document).ready(function () {
   var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
   var ulElement = $(".list-group");
   var lastElement = uniqueCities[uniqueCities.length - 1];
-  
-
-  // Function to create list groups for each city in the unique cities array
-  function searchHistory() {
-    for (var i = 0; i < uniqueCities.length; i++) {
-      var liElement = $("<li>");
-      liElement.addClass("list-group-item");
-      liElement.text(uniqueCities[i]);
-      ulElement.prepend(liElement);
-    }
-  }
-  searchHistory();
 
   // Variable for API key for the AJAX calls
   var APIkey = "2d55950b982d8809e238650a5988955c";
@@ -173,6 +161,18 @@ $(document).ready(function () {
       $(".form-control").val("");
     });
   }
+  // Function to create list groups for each city in the unique cities array
+  function searchHistory() {
+    for (var i = 0; i < uniqueCities.length; i++) {
+      var liElement = $("<li>");
+      liElement.addClass("list-group-item");
+      liElement.text(uniqueCities[i]);
+      ulElement.prepend(liElement);
+    }
+  }
+  // Display search history
+  searchHistory();
+  // Display the weather dashboard for the last searched city
   ajaxCalls(lastElement);
 
   // Click event for search button
@@ -184,11 +184,10 @@ $(document).ready(function () {
       $("#five-day-forecast").empty();
     }
 
-    // Variables
-
+    // Location variable
     var location = $(".form-control").val();
 
-    // Title case uniqueCities
+    // Title case uniqueCities array
     function titleCase(uniqueCities) {
       uniqueCities = uniqueCities.toLowerCase().split(" ");
       for (var i = 0; i < uniqueCities.length; i++) {
@@ -201,7 +200,7 @@ $(document).ready(function () {
     // Push searched city into searchedCitiesArray
     searchedCitiesArray.push(titleCase(location));
 
-    // Push unique cities from searched cities array into unique cities array
+    // Push unique cities from searched cities array into uniqueCities array
     searchedCitiesArray.forEach((city) => {
       if (!uniqueCities.includes(city)) {
         uniqueCities.push(city);
