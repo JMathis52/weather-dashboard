@@ -2,7 +2,6 @@ $(document).ready(function () {
   // Variables for local storage
   var searchedCitiesArray = JSON.parse(localStorage.getItem("cities")) || [];
   var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
-  // For each loop to grab unique cities
 
   // Click event for search button
   $("#search-button").on("click", function (event) {
@@ -29,7 +28,7 @@ $(document).ready(function () {
     console.log(titleCase(location));
 
     // Push searched city into searchedCitiesArray
-      searchedCitiesArray.push(titleCase(location));
+    searchedCitiesArray.push(titleCase(location));
 
     // Push unique cities from searched cities array into unique cities array
     searchedCitiesArray.forEach((city) => {
@@ -60,10 +59,11 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
-        $(".list-group-item").on("click", function (event) {
-          event.preventDefault();
-          console.log("you clicked an li");
-        });
+      $(".list-group-item").on("click", function (event) {
+        event.preventDefault();
+        console.log("you clicked an li");
+      });
+      console.log(response);
       // City name variable
       var cityName = response.name;
       // Temperature variable
@@ -197,7 +197,7 @@ $(document).ready(function () {
           pElementHumidity.append(humidity);
           cardBody.append(pElementHumidity);
         }
-      });
-    });
+      });$(".form-control").val("");
+    }); 
   });
 });
