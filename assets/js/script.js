@@ -2,6 +2,17 @@ $(document).ready(function () {
   // Variables for local storage
   var searchedCitiesArray = JSON.parse(localStorage.getItem("cities")) || [];
   var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
+  var ulElement = $(".list-group");
+  // Function to create list groups for each city in the unique cities array
+  function searchHistory() {
+    for (var i = 0; i < uniqueCities.length; i++) {
+      var liElement = $("<li>");
+      liElement.addClass("list-group-item");
+      liElement.text(uniqueCities[i]);
+      ulElement.append(liElement);
+    }
+  }
+  searchHistory();
 
   // Click event for search button
   $("#search-button").on("click", function (event) {
@@ -39,16 +50,8 @@ $(document).ready(function () {
     console.log(uniqueCities);
     // Set local storage key to store unique cities array
     localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
-    // For loop to create list groups for each city in the unique cities array
-    var ulElement = $(".list-group");
     ulElement.empty();
-
-    for (var i = 0; i < uniqueCities.length; i++) {
-      var liElement = $("<li>");
-      liElement.addClass("list-group-item");
-      liElement.text(uniqueCities[i]);
-      ulElement.append(liElement);
-    }
+    searchHistory();
 
     // AJAX call for the weather
     $.ajax({
@@ -197,7 +200,8 @@ $(document).ready(function () {
           pElementHumidity.append(humidity);
           cardBody.append(pElementHumidity);
         }
-      });$(".form-control").val("");
-    }); 
+      });
+      $(".form-control").val("");
+    });
   });
 });
