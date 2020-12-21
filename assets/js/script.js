@@ -15,10 +15,10 @@ $(document).ready(function () {
   }
   searchHistory();
 
-  // Variable for API key for the AJAX calls 
+  // Variable for API key for the AJAX calls
   var APIkey = "2d55950b982d8809e238650a5988955c";
 
-  // Function for ajax calls 
+  // Function for ajax calls
   function ajaxCalls(location) {
     // AJAX call for the weather
     $.ajax({
@@ -68,11 +68,7 @@ $(document).ready(function () {
       pElementWindSpeed = $("<p>");
       pElementWindSpeed.text(windSpeed);
       // Append p elements for temp, humidity, and wind speed to the city forecast section
-      todaysForecast.append(
-        pElementTemp,
-        pElementHumidity,
-        pElementWindSpeed
-      );
+      todaysForecast.append(pElementTemp, pElementHumidity, pElementWindSpeed);
 
       // AJAX call to get the UV index
       $.ajax({
@@ -182,7 +178,7 @@ $(document).ready(function () {
     }
 
     // Variables
-    
+
     var location = $(".form-control").val();
 
     // Title case uniqueCities
@@ -214,9 +210,14 @@ $(document).ready(function () {
   });
   $(".list-group-item").on("click", function (event) {
     event.preventDefault();
-    var listItem = (event.target).innerHTML;
+    // Conditional to empty forecast each time a new city is searched
+    if ($("#city-forecast") !== "" && $("#five-day-forecast") !== "") {
+      $("#city-forecast").empty();
+      $("#five-day-forecast").empty();
+    }
+    var listItem = event.target.innerHTML;
     var location = listItem;
-    console.log(location)
+    console.log(location);
     ajaxCalls(location);
   });
 });
