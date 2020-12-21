@@ -3,6 +3,8 @@ $(document).ready(function () {
   var searchedCitiesArray = JSON.parse(localStorage.getItem("cities")) || [];
   var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
   var ulElement = $(".list-group");
+  var lastElement = uniqueCities[uniqueCities.length - 1];
+  
 
   // Function to create list groups for each city in the unique cities array
   function searchHistory() {
@@ -18,7 +20,7 @@ $(document).ready(function () {
   // Variable for API key for the AJAX calls
   var APIkey = "2d55950b982d8809e238650a5988955c";
 
-  // Function for ajax calls
+  // Function to get the weather for the current day
   function ajaxCalls(location) {
     // AJAX call for the weather
     $.ajax({
@@ -29,12 +31,11 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
-      // check to see if the response has a name property
-      // if yes, push it to the array and add it to local storage
+      // Conditional to check if the response has a name property
+      // If yes, push it to the array and add it to local storage
       // Set local storage key to store unique cities array
-      if(response.name){
-      localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
+      if (response.name) {
+        localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
       }
       // City name variable
       var cityName = response.name;
@@ -172,6 +173,7 @@ $(document).ready(function () {
       $(".form-control").val("");
     });
   }
+  ajaxCalls(lastElement);
 
   // Click event for search button
   $("#search-button").on("click", function (event) {
