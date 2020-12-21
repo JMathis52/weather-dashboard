@@ -62,7 +62,7 @@
 
 #city-forecast {
   margin-top: 20px;
-  margin-left: 20px;
+  /* margin-left: 10px; */
   border: solid 2px rgb(244, 240, 240);
 }
 

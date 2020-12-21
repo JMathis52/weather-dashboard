@@ -3,6 +3,7 @@ $(document).ready(function () {
   var searchedCitiesArray = JSON.parse(localStorage.getItem("cities")) || [];
   var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
   var ulElement = $(".list-group");
+
   // Function to create list groups for each city in the unique cities array
   function searchHistory() {
     for (var i = 0; i < uniqueCities.length; i++) {
@@ -13,7 +14,10 @@ $(document).ready(function () {
     }
   }
   searchHistory();
+
+  // Variable for API key for the AJAX calls 
   var APIkey = "2d55950b982d8809e238650a5988955c";
+
   // Function for ajax calls 
   function ajaxCalls(location) {
     // AJAX call for the weather
@@ -25,10 +29,6 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
-      $(".list-group-item").on("click", function (event) {
-        event.preventDefault();
-        console.log("you clicked an li");
-      });
       console.log(response);
       // City name variable
       var cityName = response.name;
@@ -210,8 +210,13 @@ $(document).ready(function () {
     localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
     ulElement.empty();
     searchHistory();
-
-    
+    ajaxCalls(location);
+  });
+  $(".list-group-item").on("click", function (event) {
+    event.preventDefault();
+    var listItem = (event.target).innerHTML;
+    var location = listItem;
+    console.log(location)
     ajaxCalls(location);
   });
 });
