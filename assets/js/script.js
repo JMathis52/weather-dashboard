@@ -4,7 +4,7 @@ $(document).ready(function () {
   var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
   var ulElement = $(".list-group");
   var lastElement = uniqueCities[uniqueCities.length - 1];
-  if(uniqueCities.length > 10){
+  if (uniqueCities.length > 10) {
     uniqueCities.shift();
   }
   // Variable for API key for the AJAX calls
@@ -26,6 +26,12 @@ $(document).ready(function () {
       // Set local storage key to store unique cities array
       if (response.name) {
         localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
+        // Push unique cities from searched cities array into uniqueCities array
+        searchedCitiesArray.forEach((city) => {
+          if (!uniqueCities.includes(city)) {
+            uniqueCities.push(city);
+          }
+        });
       }
       // City name variable
       var cityName = response.name;
@@ -202,13 +208,6 @@ $(document).ready(function () {
     // Push searched city into searchedCitiesArray
     searchedCitiesArray.push(titleCase(location));
 
-    // Push unique cities from searched cities array into uniqueCities array
-    searchedCitiesArray.forEach((city) => {
-      if (!uniqueCities.includes(city)) {
-        uniqueCities.push(city);
-      }
-    });
-
     ulElement.empty();
     searchHistory();
     ajaxCalls(location);
@@ -224,5 +223,4 @@ $(document).ready(function () {
     var location = listItem;
     ajaxCalls(location);
   });
-  
 });
