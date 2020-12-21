@@ -2,6 +2,10 @@
   font-size: 50px;
 }
 
+.container {
+  max-width: 1800px;
+}
+
 .form-control {
   margin-right: 0 !important;
 }
