@@ -18,6 +18,7 @@ $(document).ready(function () {
       method: "GET",
     }).then(function (response) {
       // Check if the response has a name property
+      console.log(response)
       if (response.name) {
         localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
       }
@@ -158,7 +159,7 @@ $(document).ready(function () {
     });
   }
 
-  // Display search history
+  // Display search history and the weather dashboard for the last searched city
   searchHistory();
   // Display the weather dashboard for the last searched city
   ajaxCalls(lastElement);
