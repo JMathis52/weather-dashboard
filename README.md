@@ -1,7 +1,12 @@
 # Weather Dashboard
 <!-- Badge goes here -->
 ## Description
-[Weather Dashboard](https://jeanarose.github.io/weather-dashboard/) 
+[Weather Dashboard](https://jeanarose.github.io/weather-dashboard/) is a dynamic jQuery app designed to display the forecast for the current day and the next five days of a city that the user searches. The application stores the user's recently searched cities into local storage and displays them on the left-hand side. The user can simply click on the recently searched cities to view the weather for each city. Weather Dashboard utilized the following components:
+* OpenWeather APIs (Current Weather, UVI, and One Call)
+* jQuery in order to display the weather dashboard dynamically and update the search history
+* AJAX in order to call the OpenWeather APIs 
+* Event listeners for the search button and for the recently searched cities 
+* Local storage in order to display the recently searched cities on the page
 
 View the deployed application here: https://jeanarose.github.io/weather-dashboard/
 

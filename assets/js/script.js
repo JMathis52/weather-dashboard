@@ -4,7 +4,9 @@ $(document).ready(function () {
   var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
   var ulElement = $(".list-group");
   var lastElement = uniqueCities[uniqueCities.length - 1];
-
+  if(uniqueCities.length > 10){
+    uniqueCities.shift();
+  }
   // Variable for API key for the AJAX calls
   var APIkey = "2d55950b982d8809e238650a5988955c";
 
@@ -222,4 +224,5 @@ $(document).ready(function () {
     var location = listItem;
     ajaxCalls(location);
   });
+  
 });
