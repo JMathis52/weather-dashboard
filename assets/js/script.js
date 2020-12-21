@@ -1,16 +1,12 @@
 $(document).ready(function () {
-  // Variables for local storage
+  // Variables
   var searchedCitiesArray = JSON.parse(localStorage.getItem("cities")) || [];
   var uniqueCities = JSON.parse(localStorage.getItem("uniqueCities")) || [];
   var ulElement = $(".list-group");
   var lastElement = uniqueCities[uniqueCities.length - 1];
-  if (uniqueCities.length > 10) {
-    uniqueCities.shift();
-  }
-  // Variable for API key for the AJAX calls
   var APIkey = "2d55950b982d8809e238650a5988955c";
 
-  // Function to get the weather for the current day
+  // Get the weather for the current day
   function ajaxCalls(location) {
     // AJAX call for the weather
     $.ajax({
@@ -21,17 +17,9 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
-      // Conditional to check if the response has a name property
-      // If yes, push it to the array and add it to local storage
-      // Set local storage key to store unique cities array
+      // Check if the response has a name property
       if (response.name) {
         localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
-        // Push unique cities from searched cities array into uniqueCities array
-        searchedCitiesArray.forEach((city) => {
-          if (!uniqueCities.includes(city)) {
-            uniqueCities.push(city);
-          }
-        });
       }
       // City name variable
       var cityName = response.name;
@@ -169,31 +157,23 @@ $(document).ready(function () {
       $(".form-control").val("");
     });
   }
-  // Function to create list groups for each city in the unique cities array
-  function searchHistory() {
-    for (var i = 0; i < uniqueCities.length; i++) {
-      var liElement = $("<li>");
-      liElement.addClass("list-group-item");
-      liElement.text(uniqueCities[i]);
-      ulElement.prepend(liElement);
-    }
-  }
+
   // Display search history
   searchHistory();
   // Display the weather dashboard for the last searched city
   ajaxCalls(lastElement);
 
-  // Click event for search button
-  $("#search-button").on("click", function (event) {
+  // Function for search button
+  function search(){
     event.preventDefault();
+    // Location variable
+    var location = $(".form-control").val();
+
     // Conditional to empty forecast each time a new city is searched
     if ($("#city-forecast") !== "" && $("#five-day-forecast") !== "") {
       $("#city-forecast").empty();
       $("#five-day-forecast").empty();
     }
-
-    // Location variable
-    var location = $(".form-control").val();
 
     // Title case uniqueCities array
     function titleCase(uniqueCities) {
@@ -208,11 +188,29 @@ $(document).ready(function () {
     // Push searched city into searchedCitiesArray
     searchedCitiesArray.push(titleCase(location));
 
+    // Push unique cities from searched cities array into unique cities array
+    searchedCitiesArray.forEach((city) => {
+      if (!uniqueCities.includes(city)) {
+        uniqueCities.push(city);
+      }
+    });
+
     ulElement.empty();
     searchHistory();
     ajaxCalls(location);
-  });
-  $(".list-group-item").on("click", function (event) {
+  }
+  // Function to create list groups for each city in the unique cities array
+  function searchHistory() {
+    for (var i = 0; i < uniqueCities.length; i++) {
+      var liElement = $("<li>");
+      liElement.addClass("list-group-item");
+      liElement.text(uniqueCities[i]);
+      ulElement.prepend(liElement);
+    }
+  }
+
+  // Function to write the list
+  function writeList(event) {
     event.preventDefault();
     // Conditional to empty forecast each time a new city is searched
     if ($("#city-forecast") !== "" && $("#five-day-forecast") !== "") {
@@ -222,5 +220,8 @@ $(document).ready(function () {
     var listItem = event.target.innerHTML;
     var location = listItem;
     ajaxCalls(location);
-  });
+  }
+  // Event listeners
+  $("#search-button").on("click", search);
+  $(".list-group-item").on("click", writeList);
 });
