@@ -13,46 +13,9 @@ $(document).ready(function () {
     }
   }
   searchHistory();
-
-  // Click event for search button
-  $("#search-button").on("click", function (event) {
-    event.preventDefault();
-    // Conditional to empty forecast each time a new city is searched
-    if ($("#city-forecast") !== "" && $("#five-day-forecast") !== "") {
-      $("#city-forecast").empty();
-      $("#five-day-forecast").empty();
-    }
-
-    // Variables
-    var APIkey = "2d55950b982d8809e238650a5988955c";
-    var location = $(".form-control").val();
-
-    // Title case uniqueCities
-    function titleCase(uniqueCities) {
-      uniqueCities = uniqueCities.toLowerCase().split(" ");
-      for (var i = 0; i < uniqueCities.length; i++) {
-        uniqueCities[i] =
-          uniqueCities[i].charAt(0).toUpperCase() + uniqueCities[i].slice(1);
-      }
-      return uniqueCities.join(" ");
-    }
-    console.log(titleCase(location));
-
-    // Push searched city into searchedCitiesArray
-    searchedCitiesArray.push(titleCase(location));
-
-    // Push unique cities from searched cities array into unique cities array
-    searchedCitiesArray.forEach((city) => {
-      if (!uniqueCities.includes(city)) {
-        uniqueCities.push(city);
-      }
-    });
-    console.log(uniqueCities);
-    // Set local storage key to store unique cities array
-    localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
-    ulElement.empty();
-    searchHistory();
-
+  var APIkey = "2d55950b982d8809e238650a5988955c";
+  // Function for ajax calls 
+  function ajaxCalls(location) {
     // AJAX call for the weather
     $.ajax({
       url:
@@ -105,7 +68,11 @@ $(document).ready(function () {
       pElementWindSpeed = $("<p>");
       pElementWindSpeed.text(windSpeed);
       // Append p elements for temp, humidity, and wind speed to the city forecast section
-      todaysForecast.append(pElementTemp, pElementHumidity, pElementWindSpeed);
+      todaysForecast.append(
+        pElementTemp,
+        pElementHumidity,
+        pElementWindSpeed
+      );
 
       // AJAX call to get the UV index
       $.ajax({
@@ -203,5 +170,48 @@ $(document).ready(function () {
       });
       $(".form-control").val("");
     });
+  }
+
+  // Click event for search button
+  $("#search-button").on("click", function (event) {
+    event.preventDefault();
+    // Conditional to empty forecast each time a new city is searched
+    if ($("#city-forecast") !== "" && $("#five-day-forecast") !== "") {
+      $("#city-forecast").empty();
+      $("#five-day-forecast").empty();
+    }
+
+    // Variables
+    
+    var location = $(".form-control").val();
+
+    // Title case uniqueCities
+    function titleCase(uniqueCities) {
+      uniqueCities = uniqueCities.toLowerCase().split(" ");
+      for (var i = 0; i < uniqueCities.length; i++) {
+        uniqueCities[i] =
+          uniqueCities[i].charAt(0).toUpperCase() + uniqueCities[i].slice(1);
+      }
+      return uniqueCities.join(" ");
+    }
+    console.log(titleCase(location));
+
+    // Push searched city into searchedCitiesArray
+    searchedCitiesArray.push(titleCase(location));
+
+    // Push unique cities from searched cities array into unique cities array
+    searchedCitiesArray.forEach((city) => {
+      if (!uniqueCities.includes(city)) {
+        uniqueCities.push(city);
+      }
+    });
+    console.log(uniqueCities);
+    // Set local storage key to store unique cities array
+    localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
+    ulElement.empty();
+    searchHistory();
+
+    
+    ajaxCalls(location);
   });
 });
