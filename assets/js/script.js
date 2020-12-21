@@ -29,6 +29,13 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
+      console.log(response);
+      // check to see if the response has a name property
+      // if yes, push it to the array and add it to local storage
+      // Set local storage key to store unique cities array
+      if(response.name){
+      localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
+      }
       // City name variable
       var cityName = response.name;
       // Temperature variable
@@ -198,8 +205,7 @@ $(document).ready(function () {
         uniqueCities.push(city);
       }
     });
-    // Set local storage key to store unique cities array
-    localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
+
     ulElement.empty();
     searchHistory();
     ajaxCalls(location);
