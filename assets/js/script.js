@@ -29,7 +29,6 @@ $(document).ready(function () {
         APIkey,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
       // City name variable
       var cityName = response.name;
       // Temperature variable
@@ -118,7 +117,6 @@ $(document).ready(function () {
         h1Element.text("5 Day Forecast:");
         fiveDayForecast.append(h1Element);
         // For loop to create five day forecast cards
-        console.log(response);
         for (var i = 1; i < 6; i++) {
           fiveDayForecast.attr("style", "display: block");
           var newDate = new Date(response.daily[i].dt * 1000);
@@ -190,7 +188,6 @@ $(document).ready(function () {
       }
       return uniqueCities.join(" ");
     }
-    console.log(titleCase(location));
 
     // Push searched city into searchedCitiesArray
     searchedCitiesArray.push(titleCase(location));
@@ -201,7 +198,6 @@ $(document).ready(function () {
         uniqueCities.push(city);
       }
     });
-    console.log(uniqueCities);
     // Set local storage key to store unique cities array
     localStorage.setItem("uniqueCities", JSON.stringify(uniqueCities));
     ulElement.empty();
@@ -217,7 +213,6 @@ $(document).ready(function () {
     }
     var listItem = event.target.innerHTML;
     var location = listItem;
-    console.log(location);
     ajaxCalls(location);
   });
 });
