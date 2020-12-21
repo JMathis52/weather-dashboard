@@ -9,7 +9,7 @@ $(document).ready(function () {
       var liElement = $("<li>");
       liElement.addClass("list-group-item");
       liElement.text(uniqueCities[i]);
-      ulElement.append(liElement);
+      ulElement.prepend(liElement);
     }
   }
   searchHistory();
